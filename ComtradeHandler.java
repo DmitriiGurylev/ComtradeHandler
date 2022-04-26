@@ -50,15 +50,10 @@ public class ComtradeHandler {
         return newElementPositionToComtradeReportMap;
     }
 
-    private void transformPrimaryValuesToSecondary(Comtrade comtrade) {
+    public Comtrade transformPrimaryValuesToSecondary(Comtrade comtrade, float primaryNominal, float secondaryNominal) {
+        Comtrade comtradeNew = new Comtrade();
         String[] datRows = comtrade.getDat().toString().split("\n");
-        float transformFactor;
-//        if (element.isItCurrentTransformer()) {
-//            transformFactor = (float) directoryData.getRatedCurrentValue(element)[0] / directoryData.getRatedCurrentValue(element)[1];
-//        } else {
-//            transformFactor = (float) (directoryData.getVoltageDirectoryById(element.getVoltageLevel()).get().getVoltageValue() * 10.0 / 1000.0);
-//        }
-        transformFactor = 1f;
+        float transformFactor = primaryNominal / secondaryNominal;
         for (int i = 0; i < datRows.length; i++) {
             String[] fieldsOfRow = datRows[i].split(",");
             fieldsOfRow[2] = String.valueOf(Double.parseDouble(fieldsOfRow[2]) / transformFactor);
@@ -82,7 +77,9 @@ public class ComtradeHandler {
                 sb.append("\n");
             }
         }
-        comtrade.setDat(sb);
+        comtradeNew.setCfg(comtrade.getCfg());
+        comtradeNew.setDat(sb);
+        return comtradeNew;
     }
 
     private String[][] addDigitToNameOfSignal(String phaseA, String phaseB, String phaseC,
