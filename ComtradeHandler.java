@@ -1,4 +1,4 @@
-package ru.mpei.ldsm.model.runner.model;
+package ru.mpei;
 
 import java.util.*;
 import java.util.stream.Collectors;
