@@ -52,14 +52,18 @@ public class ActionsWithComtrade {
 
     public Comtrade transformPrimaryValuesToSecondary(Comtrade comtrade, float primaryNominal, float secondaryNominal) {
         Comtrade comtradeNew = new Comtrade();
+
+        String[] cfg = comtrade.getCfg().split("\n");
+        String[] numberOfSignals = cfg[1].split(",");
+        int analogSignals = Integer.parseInt(numberOfSignals[0].replaceAll("[^0-9]", ""));
+
         String[] datRows = comtrade.getDat().toString().split("\n");
         float transformFactor = primaryNominal / secondaryNominal;
         for (int i = 0; i < datRows.length; i++) {
             String[] fieldsOfRow = datRows[i].split(",");
-            fieldsOfRow[2] = String.valueOf(Double.parseDouble(fieldsOfRow[2]) / transformFactor);
-            fieldsOfRow[3] = String.valueOf(Double.parseDouble(fieldsOfRow[3]) / transformFactor);
-            fieldsOfRow[4] = String.valueOf(Double.parseDouble(fieldsOfRow[4]) / transformFactor);
-
+            for (int j=0; j<analogSignals; j++) {
+                fieldsOfRow[2+j] = String.valueOf(Double.parseDouble(fieldsOfRow[2]) / transformFactor);
+            }
             StringBuilder sb = new StringBuilder();
             for (int j = 0; j < fieldsOfRow.length; j++) {
                 sb.append(fieldsOfRow[j]);
