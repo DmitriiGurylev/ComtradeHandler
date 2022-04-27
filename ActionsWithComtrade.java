@@ -50,6 +50,44 @@ public class ActionsWithComtrade {
         return newElementPositionToComtradeMap;
     }
 
+    public Comtrade transformPrimaryValuesToSecondary(Comtrade comtrade, Set<Integer> arrayOfAnalogSignals, float primaryNominal, float secondaryNominal) {
+        Comtrade comtradeNew = new Comtrade();
+
+        String[] cfg = comtrade.getCfg().split("\n");
+        String[] numberOfSignals = cfg[1].split(",");
+        int analogSignals = Integer.parseInt(numberOfSignals[0].replaceAll("[^0-9]", ""));
+
+        String[] datRows = comtrade.getDat().toString().split("\n");
+        float transformFactor = primaryNominal / secondaryNominal;
+        for (int i = 0; i < datRows.length; i++) {
+            String[] fieldsOfRow = datRows[i].split(",");
+            for (int j=0; j<analogSignals; j++) {
+                if (arrayOfAnalogSignals.contains(j+1)) {
+                    fieldsOfRow[2+j] = String.valueOf(Double.parseDouble(fieldsOfRow[2]) / transformFactor);
+                }
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int j = 0; j < fieldsOfRow.length; j++) {
+                sb.append(fieldsOfRow[j]);
+                if (j != fieldsOfRow.length - 1) {
+                    sb.append(",");
+                }
+            }
+            datRows[i] = sb.toString();
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < datRows.length; i++) {
+            sb.append(datRows[i]);
+            if (i != datRows.length - 1) {
+                sb.append("\n");
+            }
+        }
+        comtradeNew.setCfg(comtrade.getCfg());
+        comtradeNew.setDat(sb);
+        return comtradeNew;
+    }
+
     public Comtrade transformPrimaryValuesToSecondary(Comtrade comtrade, float primaryNominal, float secondaryNominal) {
         Comtrade comtradeNew = new Comtrade();
 
