@@ -63,7 +63,7 @@ public class ActionsWithComtrade {
             String[] fieldsOfRow = datRows[i].split(",");
             for (int j=0; j<analogSignals; j++) {
                 if (arrayOfAnalogSignals == null || arrayOfAnalogSignals.contains(j + 1)) {
-                    fieldsOfRow[2 + j] = String.valueOf(Double.parseDouble(fieldsOfRow[2]) / transformFactor);
+                    fieldsOfRow[2 + j] = String.valueOf(Double.parseDouble(fieldsOfRow[2 + j]) / transformFactor);
                 }
             }
 
