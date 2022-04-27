@@ -15,16 +15,16 @@ public class ComtradeHandler {
     }
 
     public Map<String, Comtrade> getCurrentSum(String newName,
-                                               Map<String, Comtrade> elementPositionToComtradeReportMap,
+                                               Map<String, Comtrade> elementPositionToComtradeMap,
                                                String... measTransList
     ) {
-        Map<String, Comtrade> newElementPositionToComtradeReportMap = new HashMap<>();
+        Map<String, Comtrade> newElementPositionToComtradeMap = new HashMap<>();
         List<Comtrade> listToSum = new LinkedList<>();
-        elementPositionToComtradeReportMap.forEach((key, value) -> {
+        elementPositionToComtradeMap.forEach((key, value) -> {
             if (Arrays.asList(measTransList).contains(key)) {
                 listToSum.add(value);
             } else {
-                newElementPositionToComtradeReportMap.put(key, value);
+                newElementPositionToComtradeMap.put(key, value);
             }
         });
         List<Comtrade> comtradesToSum = listToSum.stream()
@@ -46,8 +46,8 @@ public class ComtradeHandler {
             newDat.append(datRowSplit1[5]).append("\n");
         }
         newComtrade.setDat(newDat);
-        newElementPositionToComtradeReportMap.put(newName, newComtrade);
-        return newElementPositionToComtradeReportMap;
+        newElementPositionToComtradeMap.put(newName, newComtrade);
+        return newElementPositionToComtradeMap;
     }
 
     public Comtrade transformPrimaryValuesToSecondary(Comtrade comtrade, float primaryNominal, float secondaryNominal) {
@@ -109,123 +109,62 @@ public class ComtradeHandler {
         return sb;
     }
 
-    public Comtrade unifyComtrades(Map<String, Comtrade> comtradeReportMap, String firstEl, String secondEl) {
-
+    public Comtrade unifyComtrades(Map<String, Comtrade> comtradeMap, String... elements) {
         Comtrade comtrade = new Comtrade();
-        String[] cfg = comtradeReportMap.get(firstEl).getCfg().split("\n");
-        String[] cfgNew = new String[cfg.length + 3];
-        cfgNew[0] = cfg[0];
-        String[] numberOfSignals = cfg[1].split(",");
-        numberOfSignals[0] = String.valueOf(Integer.parseInt(numberOfSignals[0]) + 3);
-        numberOfSignals[1] = String.valueOf(Integer.parseInt(numberOfSignals[1].replaceAll("[^0-9]", "")) + 3);
-        cfgNew[1] = numberOfSignals[0] + "," + numberOfSignals[1] + "A," + numberOfSignals[2];
-        StringBuilder sb;
-
-        String[][] signals = addDigitToNameOfSignal(cfg[2], cfg[3], cfg[4], "1", "1", "2", "3");
-        cfgNew[2] = buildCfgSignalRow(signals[0]);
-        cfgNew[3] = buildCfgSignalRow(signals[1]);
-        cfgNew[4] = buildCfgSignalRow(signals[2]);
-
-        cfg = comtradeReportMap.get(secondEl).getCfg().split("\n");
-        signals = addDigitToNameOfSignal(cfg[2], cfg[3], cfg[4], "2", "4", "5", "6");
-        cfgNew[5] = buildCfgSignalRow(signals[0]);
-        cfgNew[6] = buildCfgSignalRow(signals[1]);
-        cfgNew[7] = buildCfgSignalRow(signals[2]);
-
-        System.arraycopy(cfg, 5, cfgNew, 8, 8);
-        comtrade.setCfg(fillCfgFile(cfgNew));
-
-        sb = new StringBuilder();
-        String[] datOriginal1 = String.valueOf(comtradeReportMap.get(firstEl).getDat()).split("\n");
-        String[] datOriginal2 = String.valueOf(comtradeReportMap.get(secondEl).getDat()).split("\n");
-        for (int i = 0; i < datOriginal1.length; i++) {
-            String[] rowOriginal1 = datOriginal1[i].split(",");
-            String[] rowOriginal2 = datOriginal2[i].split(",");
-            String[] column = new String[rowOriginal1.length + 3];
-            column[0] = rowOriginal1[0];
-            column[1] = rowOriginal1[1];
-            column[2] = rowOriginal1[2];
-            column[3] = rowOriginal1[3];
-            column[4] = rowOriginal1[4];
-            column[5] = rowOriginal2[2];
-            column[6] = rowOriginal2[3];
-            column[7] = rowOriginal2[4];
-            column[8] = rowOriginal1[5];
-
-            sb.append(fillRowOfDatFile(column));
-        }
-        comtrade.setDat(sb);
+        comtrade.setCfg(buildCfg(comtradeMap, elements));
+        comtrade.setDat(buildDat(comtradeMap, elements));
         return comtrade;
     }
 
-    private String fillCfgFile(String[] cfgArray) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < cfgArray.length; i++) {
-            sb.append(cfgArray[i]);
-            if (i != cfgArray.length - 1) sb.append("\n");
+    private String buildCfg(Map<String, Comtrade> comtradeMap, String... elements) {
+        String[] cfg = comtradeMap.get(elements[0]).getCfg().split("\n");
+        int numberOfAdditionalRowsInCfg = (elements.length - 1) * 3;
+        String[] cfgNew = new String[cfg.length + numberOfAdditionalRowsInCfg];
+        cfgNew[0] = cfg[0];
+        String[] numberOfSignals = cfg[1].split(",");
+        numberOfSignals[0] = String.valueOf(Integer.parseInt(numberOfSignals[0]) + numberOfAdditionalRowsInCfg);
+        numberOfSignals[1] = String.valueOf(Integer.parseInt(numberOfSignals[1].replaceAll("[^0-9]", "")) + numberOfAdditionalRowsInCfg);
+        cfgNew[1] = numberOfSignals[0] + "," + numberOfSignals[1] + "A," + numberOfSignals[2];
+
+        int columnPosition = 2;
+        for (int i=0; i<elements.length; i++) {
+            cfg = comtradeMap.get(elements[i]).getCfg().split("\n");
+            String[][] signals = addDigitToNameOfSignal(cfg[2], cfg[3], cfg[4], String.valueOf(i+1),
+                    String.valueOf(i*3+1), String.valueOf(i*3+2), String.valueOf(i*3+2));
+            cfgNew[columnPosition++] = buildCfgSignalRow(signals[0]);
+            cfgNew[columnPosition++] = buildCfgSignalRow(signals[1]);
+            cfgNew[columnPosition++] = buildCfgSignalRow(signals[2]);
         }
+        System.arraycopy(cfg, 5, cfgNew, (elements.length - 2)*3+8, 8);
+        StringBuilder sb = new StringBuilder();
+        Arrays.stream(cfgNew).forEach(s -> sb.append(s).append("\n"));
         return String.valueOf(sb);
     }
 
-    public Comtrade unifyComtrades(
-            Map<String, Comtrade> comtradeReportMap, String firstEl, String secondEl, String thirdEl
-    ) {
-        Comtrade comtrade = new Comtrade();
-        String[] cfg = comtradeReportMap.get(firstEl).getCfg().split("\n");
-        String[] cfgNew = new String[cfg.length + 6];
-        cfgNew[0] = cfg[0];
-        String[] numberOfSignals = cfg[1].split(",");
-        numberOfSignals[0] = String.valueOf(Integer.parseInt(numberOfSignals[0]) + 6);
-        numberOfSignals[1] = String.valueOf(Integer.parseInt(numberOfSignals[1].replaceAll("[^0-9]", "")) + 6);
-        cfgNew[1] = numberOfSignals[0] + "," + numberOfSignals[1] + "A," + numberOfSignals[2];
-
-        String[][] signals = addDigitToNameOfSignal(cfg[2], cfg[3], cfg[4], "1", "1", "2", "3");
-        cfgNew[2] = buildCfgSignalRow(signals[0]);
-        cfgNew[3] = buildCfgSignalRow(signals[1]);
-        cfgNew[4] = buildCfgSignalRow(signals[2]);
-
-        cfg = comtradeReportMap.get(secondEl).getCfg().split("\n");
-        signals = addDigitToNameOfSignal(cfg[2], cfg[3], cfg[4], "2", "4", "5", "6");
-        cfgNew[5] = buildCfgSignalRow(signals[0]);
-        cfgNew[6] = buildCfgSignalRow(signals[1]);
-        cfgNew[7] = buildCfgSignalRow(signals[2]);
-
-        cfg = comtradeReportMap.get(thirdEl).getCfg().split("\n");
-        signals = addDigitToNameOfSignal(cfg[2], cfg[3], cfg[4], "3", "7", "8", "9");
-        cfgNew[8] = buildCfgSignalRow(signals[0]);
-        cfgNew[9] = buildCfgSignalRow(signals[1]);
-        cfgNew[10] = buildCfgSignalRow(signals[2]);
-
-        System.arraycopy(cfg, 5, cfgNew, 11, 8);
-        comtrade.setCfg(fillCfgFile(cfgNew));
-
+    private StringBuilder buildDat(Map<String, Comtrade> comtradeMap, String... elements) {
         StringBuilder sb = new StringBuilder();
-        String[] datOriginal1 = String.valueOf(comtradeReportMap.get(firstEl).getDat()).split("\n");
-        String[] datOriginal2 = String.valueOf(comtradeReportMap.get(secondEl).getDat()).split("\n");
-        String[] datOriginal3 = String.valueOf(comtradeReportMap.get(thirdEl).getDat()).split("\n");
-        for (int i = 0; i < datOriginal1.length; i++) {
-            String[] rowOriginal1 = datOriginal1[i].split(",");
-            String[] rowOriginal2 = datOriginal2[i].split(",");
-            String[] rowOriginal3 = datOriginal3[i].split(",");
-            String[] column = new String[rowOriginal1.length + 6];
-            column[0] = rowOriginal1[0];
-            column[1] = rowOriginal1[1];
-            column[2] = rowOriginal1[2];
-            column[3] = rowOriginal1[3];
-            column[4] = rowOriginal1[4];
-            column[5] = rowOriginal2[2].charAt(0) == '-' ? rowOriginal2[2].substring(1) : "-" + rowOriginal2[2];
-            column[6] = rowOriginal2[3].charAt(0) == '-' ? rowOriginal2[3].substring(1) : "-" + rowOriginal2[3];
-            column[7] = rowOriginal2[4].charAt(0) == '-' ? rowOriginal2[4].substring(1) : "-" + rowOriginal2[4];
-            column[8] = rowOriginal3[2].charAt(0) == '-' ? rowOriginal3[2].substring(1) : "-" + rowOriginal3[2];
-            column[9] = rowOriginal3[3].charAt(0) == '-' ? rowOriginal3[3].substring(1) : "-" + rowOriginal3[3];
-            column[10] = rowOriginal3[4].charAt(0) == '-' ? rowOriginal3[4].substring(1) : "-" + rowOriginal3[4];
-            column[11] = rowOriginal1[5];
+        String[][] datOriginals = Arrays.stream(elements)
+                .map(element -> String.valueOf(comtradeMap.get(element).getDat()).split("\n"))
+                .toArray(String[][]::new);
 
+        for (int i = 0; i < datOriginals[0].length; i++) {
+            String[][] rowOriginalArray = new String[datOriginals.length][];
+            for (int j=0; j<elements.length; j++) {
+                rowOriginalArray[j] = datOriginals[j][i].split(",");
+            }
+            String[] column = new String[rowOriginalArray[0].length + (elements.length-1)*3];
+            column[0] = rowOriginalArray[0][0];
+            column[1] = rowOriginalArray[0][1];
+            int columnPosition = 2;
+            for (int j=0; j<elements.length; j++) {
+                column[columnPosition++] = rowOriginalArray[j][2];
+                column[columnPosition++] = rowOriginalArray[j][3];
+                column[columnPosition++] = rowOriginalArray[j][4];
+            }
+            column[columnPosition] = rowOriginalArray[0][5];
             sb.append(fillRowOfDatFile(column));
         }
-
-        comtrade.setDat(sb);
-        return comtrade;
+        return sb;
     }
 
 }
