@@ -116,16 +116,16 @@ public class ActionsWithComtrade {
         return sb;
     }
 
-    public Comtrade unifyComtrades(Map<String, Comtrade> comtradeMap, String... elements) {
+    public Comtrade unifyComtrades(Comtrade... comtrades) {
         Comtrade comtrade = new Comtrade();
-        comtrade.setCfg(buildCfg(comtradeMap, elements));
-        comtrade.setDat(buildDat(comtradeMap, elements));
+        comtrade.setCfg(buildCfg(comtrades));
+        comtrade.setDat(buildDat(comtrades));
         return comtrade;
     }
 
-    private String buildCfg(Map<String, Comtrade> comtradeMap, String... elements) {
-        String[] cfg = comtradeMap.get(elements[0]).getCfg().split("\n");
-        int numberOfAdditionalRowsInCfg = (elements.length - 1) * 3;
+    private String buildCfg(Comtrade... comtrades) {
+        String[] cfg = comtrades[0].getCfg().split("\n");
+        int numberOfAdditionalRowsInCfg = (comtrades.length - 1) * 3;
         String[] cfgNew = new String[cfg.length + numberOfAdditionalRowsInCfg];
         cfgNew[0] = cfg[0];
         String[] numberOfSignals = cfg[1].split(",");
@@ -134,36 +134,36 @@ public class ActionsWithComtrade {
         cfgNew[1] = numberOfSignals[0] + "," + numberOfSignals[1] + "A," + numberOfSignals[2];
 
         int columnPosition = 2;
-        for (int i=0; i<elements.length; i++) {
-            cfg = comtradeMap.get(elements[i]).getCfg().split("\n");
+        for (int i=0; i<comtrades.length; i++) {
+            cfg = comtrades[i].getCfg().split("\n");
             String[][] signals = addDigitToNameOfSignal(cfg[2], cfg[3], cfg[4], String.valueOf(i+1),
                     String.valueOf(i*3+1), String.valueOf(i*3+2), String.valueOf(i*3+2));
             cfgNew[columnPosition++] = buildCfgSignalRow(signals[0]);
             cfgNew[columnPosition++] = buildCfgSignalRow(signals[1]);
             cfgNew[columnPosition++] = buildCfgSignalRow(signals[2]);
         }
-        System.arraycopy(cfg, 5, cfgNew, (elements.length - 2)*3+8, 8);
+        System.arraycopy(cfg, 5, cfgNew, (comtrades.length - 2)*3+8, 8);
         StringBuilder sb = new StringBuilder();
         Arrays.stream(cfgNew).forEach(s -> sb.append(s).append("\n"));
         return String.valueOf(sb);
     }
 
-    private StringBuilder buildDat(Map<String, Comtrade> comtradeMap, String... elements) {
+    private StringBuilder buildDat(Comtrade... comtrades) {
         StringBuilder sb = new StringBuilder();
-        String[][] datOriginals = Arrays.stream(elements)
-                .map(element -> String.valueOf(comtradeMap.get(element).getDat()).split("\n"))
+        String[][] datOriginals = Arrays.stream(comtrades)
+                .map(c -> String.valueOf(c.getDat()).split("\n"))
                 .toArray(String[][]::new);
 
         for (int i = 0; i < datOriginals[0].length; i++) {
             String[][] rowOriginalArray = new String[datOriginals.length][];
-            for (int j=0; j<elements.length; j++) {
+            for (int j=0; j<comtrades.length; j++) {
                 rowOriginalArray[j] = datOriginals[j][i].split(",");
             }
-            String[] column = new String[rowOriginalArray[0].length + (elements.length-1)*3];
+            String[] column = new String[rowOriginalArray[0].length + (comtrades.length-1)*3];
             column[0] = rowOriginalArray[0][0];
             column[1] = rowOriginalArray[0][1];
             int columnPosition = 2;
-            for (int j=0; j<elements.length; j++) {
+            for (int j=0; j<comtrades.length; j++) {
                 column[columnPosition++] = rowOriginalArray[j][2];
                 column[columnPosition++] = rowOriginalArray[j][3];
                 column[columnPosition++] = rowOriginalArray[j][4];
