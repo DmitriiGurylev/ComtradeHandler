@@ -10,8 +10,12 @@ public class ComtradeHandler {
 
 	/**
 	 * args:
-	 * 1. comtrade *path_to_comtrade* transform *primary_value* *secondary_value*
-	 * 2. comtrade *path_to_comtrade* transform *primary_value* *secondary_value* write *path_to_write_to*
+	 * 1. transform primary to secondary for all analog values and write it to the same path:
+	 * comtrade #path_to_comtrade# transformAll #primary_value# #secondary_value#
+	 * 2. transform primary to secondary for all analog values and write it to a specific path:
+	 * comtrade #path_to_comtrade# transformAll #primary_value# #secondary_value# write #path_to_write_to#
+	 * 3. transform primary to secondary for specific analog values and write it to a specific path:
+	 * comtrade #path_to_comtrade# transform #primary_value# #secondary_value# write #path_to_write_to#
 	 * **/
 
 	public static void main(String[] args) {
@@ -32,7 +36,7 @@ public class ComtradeHandler {
 					e.printStackTrace();
 				}
 				i = i + 2;
-				if (args[i].equals("transform")) {
+				if (args[i].equals("transformAll")) {
 					Comtrade comtradeUpd = actionsWithComtrade.transformPrimaryValuesToSecondary(
 							comtrade,
 							Float.parseFloat(args[i + 1]),
