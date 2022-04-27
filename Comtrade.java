@@ -1,4 +1,4 @@
-package ru.mpei;
+package ru.gur;
 
 public class Comtrade {
 
