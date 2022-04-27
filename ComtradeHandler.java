@@ -18,7 +18,7 @@ public class ComtradeHandler {
 	 * comtrade #path_to_comtrade# transformall #primary_value# #secondary_value#
 	 * 2. transform all analog values from primary to secondary and write it to a specific path:
 	 * comtrade #path_to_comtrade# transformall #primary_value# #secondary_value# write #path_to_write_to#
-	 * 3. transform specific analog values from primary to secondary and write it to a specific path:
+	 * 3. transform specific analog values from primary to secondary:
 	 * comtrade #path_to_comtrade# transform #array of analog value to transform# #primary_value# #secondary_value#
 	 * comtrade #path_to_comtrade# transform #array of analog value to transform# #primary_value# #secondary_value# write #path_to_write_to#
 	 * **/
@@ -44,6 +44,7 @@ public class ComtradeHandler {
 			if (args[i].equals("transformall")) {
 				Comtrade comtradeUpd = actionsWithComtrade.transformPrimaryValuesToSecondary(
 						comtrade,
+						null,
 						Float.parseFloat(args[i + 1]),
 						Float.parseFloat(args[i + 2]));
 				i = i + 3;
