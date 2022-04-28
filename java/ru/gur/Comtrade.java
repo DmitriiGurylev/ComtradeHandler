@@ -1,4 +1,4 @@
-package ru.gur;
+package ru.gur.ru.gur;
 
 public class Comtrade {
 

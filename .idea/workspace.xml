@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="18606daa-42b3-4112-a1fc-931ae92916f1" name="Changes" comment="unifyComtrades refactored; it's unused">
+      <change beforePath="$PROJECT_DIR$/ActionsWithComtrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/ActionsWithComtrade.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="28OBbq7mSLldQ0vNzWsbQ4srFcd" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="application.passwordSafe" />
+  </component>
+  <component name="RunManager">
+    <configuration name="ComtradeHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.gur.ComtradeHandler" />
+      <module name="ComtradeHandler" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.gur.ru.gur.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="ComtradeHandler" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="ComtradeHandler" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ComtradeHandler" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="18606daa-42b3-4112-a1fc-931ae92916f1" name="Changes" comment="" />
+      <created>1651077828354</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1651077828354</updated>
+      <workItem from="1651077832760" duration="12952000" />
+      <workItem from="1651135198049" duration="18000" />
+      <workItem from="1651146833456" duration="4439000" />
+    </task>
+    <task id="LOCAL-00001" summary="classes renamed">
+      <created>1651078080903</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1651078080903</updated>
+    </task>
+    <task id="LOCAL-00002" summary="minor upd">
+      <created>1651079675551</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1651079675551</updated>
+    </task>
+    <task id="LOCAL-00003" summary="description edited">
+      <created>1651080017382</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1651080017382</updated>
+    </task>
+    <task id="LOCAL-00004" summary="one case of usage transformPrimaryValuesToSecondary method added">
+      <created>1651082171478</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1651082171478</updated>
+    </task>
+    <task id="LOCAL-00005" summary="unuesd transformPrimaryValuesToSecondary method removed">
+      <created>1651083135687</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1651083135687</updated>
+    </task>
+    <task id="LOCAL-00006" summary="unuesd transformPrimaryValuesToSecondary method removed">
+      <created>1651083225295</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1651083225295</updated>
+    </task>
+    <task id="LOCAL-00007" summary="unused transformPrimaryValuesToSecondary method removed [2]">
+      <created>1651084840491</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1651084840491</updated>
+    </task>
+    <task id="LOCAL-00008" summary="unifyComtrades refactored; it's unused">
+      <created>1651086071186</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1651086071186</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="classes renamed" />
+    <MESSAGE value="minor upd" />
+    <MESSAGE value="description edited" />
+    <MESSAGE value="one case of usage transformPrimaryValuesToSecondary method added" />
+    <MESSAGE value="unuesd transformPrimaryValuesToSecondary method removed" />
+    <MESSAGE value="unused transformPrimaryValuesToSecondary method removed [2]" />
+    <MESSAGE value="unifyComtrades refactored; it's unused" />
+    <option name="LAST_COMMIT_MESSAGE" value="unifyComtrades refactored; it's unused" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NumberFormatException" package="java.lang" />
+          <option name="timeStamp" value="17" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="args" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

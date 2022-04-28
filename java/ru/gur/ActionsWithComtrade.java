@@ -1,4 +1,4 @@
-package ru.gur;
+package ru.gur.ru.gur;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -108,9 +108,9 @@ public class ActionsWithComtrade {
 
     private StringBuilder fillRowOfDatFile(String[] column) {
         StringBuilder sb = new StringBuilder();
-        for (int j = 0; j < column.length; j++) {
-            sb.append(column[j]);
-            if (j != column.length - 1) sb.append(",");
+        for (int i = 0; i < column.length; i++) {
+            sb.append(column[i]);
+            if (i != column.length - 1) sb.append(",");
             else sb.append("\n");
         }
         return sb;
